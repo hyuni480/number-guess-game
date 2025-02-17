@@ -18,6 +18,8 @@ let chances = 3;
 let gameOver = false;
 let chanceArea = document.getElementById("chance-area");
 let history = [];
+let numHistory = document.getElementById("num-history");
+let flag = false; // 정답인지 판단
 
 
 playButton.addEventListener("click", play);
@@ -44,6 +46,8 @@ function play(){
         return;
     }
 
+    
+
     chances--;
     chanceArea.textContent=`남은 기회 : ${chances}번`
     console.log(chances)
@@ -53,10 +57,13 @@ function play(){
         result.textContent = "DOWN!!!"
     } else{
         result.textContent = "정답입니다!!!"
+        flag = true;
         gameOver= true;
     }
 
     history.push(userValue);
+
+    numHistory.textContent = `입력한 숫자들 : ${history}`
 
     if(chances < 1){
         gameOver= true;
@@ -64,6 +71,7 @@ function play(){
 
     if(gameOver){
         playButton.disabled=true;
+        if(!flag) result.textContent = "GAME OVER";
     }
 }
 
@@ -74,8 +82,10 @@ function reset(){
     playButton.disabled=false;
     userInput.value=""
     history = [];
+    flag = false;
     pickRandomNum();
     result.textContent="이곳에 결과가 나옵니다."
+    numHistory.textContent = `입력한 숫자들 : ${history}`
 }
 
 pickRandomNum();
